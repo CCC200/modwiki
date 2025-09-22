@@ -4,7 +4,7 @@ import urllib.request, os, shutil, filecmp
 repo = 'CCC200/DH2'
 mod = 'polishedcrystal'
 
-__data_files = ['abilities.ts', 'items.ts', 'moves.ts', 'pokedex.ts', 'scripts.ts']
+__data_files = ['abilities.ts', 'items.ts', 'learnsets.ts', 'moves.ts', 'pokedex.ts', 'scripts.ts']
 
 def download():
     if not os.path.isdir('_cache'):

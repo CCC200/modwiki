@@ -11,5 +11,4 @@ if '-nodl' not in sys.argv:
 if update or '-nocache' in sys.argv:
     print(f'Building site data:\n- {cache.mod} dex')
     dexMod, dexlist = parser.build_dex(cache.mod)
-    
-    
+    dexMod = parser.build_learnset(dexMod, cache.mod)

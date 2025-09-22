@@ -1,11 +1,13 @@
 import json
 
-def build_dex(mod='base'):
+def build_dex(mod='base', dexOverride=False):
     data_file = open(f'_cache/{mod}/pokedex.ts')
     ts_data = data_file.readlines()
     data_file.close()
     # parse mons
     dex = {}
+    if dexOverride:
+        dex = dexOverride
     dexlist = {
         "mons": []
     }
@@ -13,9 +15,11 @@ def build_dex(mod='base'):
     is_cosmetic = False
     name = ''
     dname = False
-    bst = {}
-    types = []
-    abil = {}
+    bst = False
+    types = False
+    abil = False
+    prevo = False
+    evos = False
     for line in ts_data:
         if line.find('export const') > -1:
             continue
@@ -37,25 +41,52 @@ def build_dex(mod='base'):
             types = types_s.split(',')
         elif in_mon and line.find('abilities') > -1: # abilities
             abil_s = line[line.find('{')+1:line.find('}')]
-            abil_s = abil_s.replace('0:', '"0":').replace('1:', '"1":').replace('H:', '"H":')
+            abil_s = abil_s.replace('0:', '"0":').replace('1:', '"1":').replace('H:', '"H":').replace('S:', '"S":')
             abil_s = abil_s.split(',')
             abil_s = '{' + ','.join(abil_s) + '}'
             abil = json.loads(abil_s)
+        elif in_mon and line.find('prevo') > -1: # pre-evolutions
+            prevo = line[line.find('"')+1:]
+            prevo = prevo[:prevo.find('"')]
+        elif in_mon and line.find('evos') > -1:
+            evos_s = line[line.find('[')+1:line.find(']')].replace(' ', '').replace('"', '')
+            evos = evos_s.split(',')
         elif in_mon and line.find('isCosmeticForme') > -1: # special for polished formes
             is_cosmetic = True
-        elif in_mon and line.find('},') > -1:
+        elif in_mon and line.find('\t},') > -1: # close object
             in_mon = False
             if is_cosmetic:
                 is_cosmetic = False
                 continue
             dexlist['mons'].append(name)
-            dex[name] = {}
-            dex[name]['bst'] = bst
-            dex[name]['types'] = types
-            dex[name]['abilities'] = abil
+            # enter or override fields
+            if name not in dex:
+                dex[name] = {}
             if dname:
                 dex[name]['name'] = dname
                 dname = False
+            if bst:
+                dex[name]['bst'] = bst
+                bst = False
+            if types:
+                dex[name]['types'] = types
+                types = False
+            if abil:
+                dex[name]['abilities'] = abil
+                abil = False
+            if prevo:
+                dex[name]['prevo'] = prevo
+                prevo = False
+            if evos:
+                dex[name]['evos'] = evos
+                evos = False
+    if dexOverride: # clear unused entries
+        to_del = []
+        for mon, data in dex.items():
+            if mon not in dexlist['mons']:
+                to_del.append(mon)
+        for mon in to_del:
+            del dex[mon]
     return dex, dexlist
 
 def build_learnset(dex, mod='base'):

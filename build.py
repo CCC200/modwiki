@@ -1,4 +1,4 @@
-from py import cache, parser
+from py import cache, parser, pager
 import sys
 
 print('===== SITE BUILDER =====')
@@ -24,4 +24,7 @@ if update or '-nocache' in sys.argv:
     abilityListMod = parser.get_ability_list(dexMod)
     abilityBase = parser.build_abilities(abilityListMod)
     abilityMod = parser.build_abilities(abilityListMod, cache.mod, abilityBase)
-    print('-----')
+    print('-----\nPaginating:')
+    pager.__header_data = pager.build_header()
+    pager.build_index(dexMod)
+    pager.copy_assets()

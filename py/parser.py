@@ -59,6 +59,8 @@ def build_dex(mod='base', dexOverride=False):
             if is_cosmetic:
                 is_cosmetic = False
                 continue
+            if name == 'egg':
+                continue
             dexlist['mons'].append(name)
             # enter or override fields
             if name not in dex:

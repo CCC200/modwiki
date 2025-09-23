@@ -17,5 +17,6 @@ if update or '-nocache' in sys.argv:
     dexMod = parser.build_learnset(dexMod, cache.mod)
     print('- base moves')
     movesBase, movesListBase = parser.build_moves()
+    movesBase = parser.fill_move_text(movesBase)
     print(f'- {cache.mod} moves')
     movesMod, movesListMod = parser.build_moves(cache.mod, movesBase)

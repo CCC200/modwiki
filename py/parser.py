@@ -198,3 +198,16 @@ def build_moves(mod='base', moveOverride=False):
         for move in to_del:
             del moves[move]
     return moves, movelist
+
+def fill_move_text(moves):
+    data_file = open('_cache/base/text-moves.ts')
+    ts_data = data_file.read()
+    data_file.close()
+    for move, data in moves.items():
+        if 'desc' not in data:
+            slice_data = ts_data[ts_data.find(move+':'):]
+            slice_data = slice_data[slice_data.find('shortDesc:'):]
+            slice_data = slice_data[slice_data.find('"')+1:]
+            slice_data = slice_data[:slice_data.find('"')]
+            moves[move]['desc'] = slice_data
+    return moves

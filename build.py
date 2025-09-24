@@ -1,5 +1,9 @@
 from py import cache, parser, pager
-import sys
+import sys, json
+
+dexMod = False
+movesMod = False
+abilityMod = False
 
 print('===== SITE BUILDER =====')
 update = False
@@ -24,7 +28,26 @@ if update or '-nocache' in sys.argv:
     abilityListMod = parser.get_ability_list(dexMod)
     abilityBase = parser.build_abilities(abilityListMod)
     abilityMod = parser.build_abilities(abilityListMod, cache.mod, abilityBase)
-    print('-----\nPaginating:')
-    pager.__header_data = pager.build_header()
-    pager.build_index(dexMod)
-    pager.copy_assets()
+    print('- saving cache')
+    for name, data in [['dexMod', dexMod], ['movesMod', movesMod], ['abilityMod', abilityMod]]:
+        f = open(f'_cache/{name}.json', 'w')
+        f.write(json.dumps(data))
+        f.close()
+else:
+    print('Loading cache:')
+    for name in ['dexMod', 'movesMod', 'abilityMod']:
+        print(f'- {name}')
+        f = open(f'_cache/{name}.json')
+        fdata = f.read()
+        f.close()
+        if name == 'dexMod':
+            dexMod = json.loads(fdata)
+        elif name == 'movesMod':
+            movesMod = json.loads(fdata)
+        elif name == 'abilityMod':
+            abilityMod = json.loads(fdata)
+print('-----\nPaginating:')
+pager.__header_data = pager.build_header()
+pager.build_index(dexMod)
+pager.copy_assets()
+print('===== FINISHED =====')

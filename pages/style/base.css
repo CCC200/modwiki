@@ -45,6 +45,7 @@ h1, h2 {
         display: inline-block;
         vertical-align: -25%;
         min-width: 13%;
+        max-width: 13%;
     }
     .dex-type {
         #type-title {
@@ -53,17 +54,20 @@ h1, h2 {
         display: inline-block;
         vertical-align: -30%;
         min-width: 10%;
+        max-width: 10%;
     }
     #dex-abilities {
         display: inline-block;
         vertical-align: -25%;
         min-width: 35%;
+        max-width: 35%;
     }
     .dex-bst {
         display: inline-block;
         vertical-align: -25%;
         text-align: center;
         min-width: 3%;
+        max-width: 3%;
     }
     h6 {
         display: inline-block;
@@ -78,7 +82,7 @@ h1, h2 {
         border: silver solid 1px;
         border-top-width: 0;
         background: white;
-        font: bold 110% sans-serif;
+        font: bold 100% sans-serif;
         border-top-width: 0;
         width: 85%;
         text-align: left;

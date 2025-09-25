@@ -11,7 +11,7 @@ def build_header():
     f.close()
     return _head
 
-def build_index(dex, icons):
+def build_index(dex, ability, icons):
     print('- index')
     f = open('pages/index.html')
     html = f.read()
@@ -22,8 +22,13 @@ def build_index(dex, icons):
     for mon, data in dex.items():
         nameUTF = data['name'].encode().decode('unicode-escape')
         buf += f'<a href="dex/{mon}"><img id="dex-icon" src="{icons[mon]}"><span id="dex-name">{nameUTF}</span>'
+        buf += '<div class="dex-type"><h6 id="type-title">Type</h6><br>'
         for type in data['types']:
-            buf += f'<img class="dex-type" src="https://play.pokemonshowdown.com/sprites/types/{type}.png">'
+            buf += f'<img src="https://play.pokemonshowdown.com/sprites/types/{type}.png">'
+        abilityNames = []
+        for a in data['abilities']:
+            abilityNames.append(ability[a]['name'])
+        buf += f'</div><span id="dex-abilities"><h6>Abilities</h6><br>{' / '.join(abilityNames)}</span>'
         buf += '</a>'
     buf += "</div>"
     html = html.replace(__comment_tag('PAGE_BODY'), buf)

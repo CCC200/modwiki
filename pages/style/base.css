@@ -47,16 +47,27 @@ h1, h2 {
         min-width: 13%;
     }
     .dex-type {
+        #type-title {
+            vertical-align: 15%;
+        }
         display: inline-block;
         vertical-align: -30%;
+        min-width: 10%;
     }
-    .dex-type:last-of-type {
-        padding-right: 5%;
+    #dex-abilities {
+        display: inline-block;
+        vertical-align: -25%;
+    }
+    h6 {
+        display: inline-block;
+        margin: 0;
+        vertical-align: middle;
     }
     a {
         position:relative;
         display: block;
         padding: 1em;
+        padding-top: 0.25em;
         border: silver solid 1px;
         border-top-width: 0;
         background: white;

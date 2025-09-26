@@ -40,6 +40,8 @@ h1, h2 {
         display: inline-block;
         vertical-align: middle;
         margin-left: -15px;
+        width: 40px;
+        height: 30px;
     }
     #dex-name {
         display: inline-block;
@@ -87,7 +89,6 @@ h1, h2 {
         border-top-width: 0;
         background: white;
         font: bold 100% sans-serif;
-        border-top-width: 0;
         width: 85%;
         text-align: left;
         user-select: none;

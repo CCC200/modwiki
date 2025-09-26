@@ -58,6 +58,21 @@ def icons(dex):
     print(f'- dex icons {counter}/{len(dex)}')
     return urls
 
+def sprites(dex):
+    urls = {}
+    counter = 0
+    for name, data in dex.items():
+        counter += 1
+        print(f'- dex sprites {counter}/{len(dex)}', end='\r')
+        try:
+            url = __data_url(f'sprites/front/{name}.png', mod)
+            urllib.request.urlopen(url)
+        except:
+            url = __smogon_sprite_url(name)
+        urls[name] = url
+    print(f'- dex sprites {counter}/{len(dex)}')
+    return urls
+
 def __smogon_icon_url(mon):
     # specific
     if 'mrmime' in mon:
@@ -94,6 +109,9 @@ def __smogon_icon_url(mon):
     elif 'paldea' in mon:
         mon = mon.replace('paldea', '-paldea')
     return f'https://www.smogon.com/forums/media/minisprites/{mon}.png'
+
+def __smogon_sprite_url(mon):
+    return f'https://play.pokemonshowdown.com/sprites/gen5/{mon}.png'
 
 def __data_url(file, mod=False):
     return f'https://raw.githubusercontent.com/{repo}/master/data/{f'mods/{mod}/{file}' if mod else file}'

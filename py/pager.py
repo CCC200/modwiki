@@ -11,10 +11,10 @@ def build_header():
     f.close()
     return _head
 
-def build_dex(dex, tiers):
+def build_dex(dex, tiers, sprites):
     print ('- dex')
     for mon, data in dex.items():
-        __build_dex_page(mon, data, tiers[mon])
+        __build_dex_page(mon, data, tiers[mon], sprites[mon])
 
 def build_index(dex, ability, tiers, icons):
     print('- index')
@@ -29,7 +29,7 @@ def build_index(dex, ability, tiers, icons):
         buf += f'<a href="dex/{mon}"><img id="dex-icon" src="{icons[mon]}"><span id="dex-name">{nameUTF}</span>'
         buf += '<div class="dex-type"><h6 id="type-title">Type</h6><br>'
         for type in data['types']:
-            buf += f'<img src="https://play.pokemonshowdown.com/sprites/types/{type}.png">'
+            buf += f'<img src="{__type_img(type)}">'
         abilityNames = []
         for a in data['abilities']:
             abilityNames.append(ability[a]['name'])
@@ -51,7 +51,7 @@ def copy_assets():
     shutil.copytree('pages/assets', '_site/assets', dirs_exist_ok=True)
 
 
-def __build_dex_page(mon, data, tier):
+def __build_dex_page(mon, data, tier, sprite):
     f = open('pages/dex.html')
     html_temp = f.read()
     f.close()
@@ -61,7 +61,7 @@ def __build_dex_page(mon, data, tier):
         os.mkdir(f'_site/dex/{mon}')
     # name & mon display
     html = html_temp.replace('MON_NAME', data['name'])
-    html = html.replace('MON_SPRITE', f'https://raw.githubusercontent.com/CCC200/DH2/refs/heads/main/data/mods/polishedcrystal/sprites/front/{mon}.png')
+    html = html.replace('MON_SPRITE', sprite)
     # types
     buf = ''
     typeLen = len(data['types'])
@@ -71,7 +71,7 @@ def __build_dex_page(mon, data, tier):
             id = 'only-type'
         elif i == 0:
             id ='first-type'
-        buf += f'<img class="mon-type" id="{id}" src="https://play.pokemonshowdown.com/sprites/types/{data['types'][i]}.png">'
+        buf += f'<img class="mon-type" id="{id}" src="{__type_img(data['types'][i])}">'
     html = html.replace(__comment_tag('MON_TYPE'), buf)
     html = html.replace('MON_TIER', tier)
     # bst
@@ -101,6 +101,9 @@ def __insert_header(html):
 def __insert_title(html):
     html = html.replace('SITE_TITLE', site_title)
     return html
+
+def __type_img(t):
+    return f'https://play.pokemonshowdown.com/sprites/types/{t}.png'
 
 def __save(data, n, path=''):
     if not os.path.isdir('_site'):

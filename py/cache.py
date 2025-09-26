@@ -4,6 +4,14 @@ import urllib.request, os, shutil, filecmp
 repo = 'CCC200/DH2'
 mod = 'polishedcrystal'
 
+# global data
+dexMod = False
+movesMod = False
+abilityMod = False
+tiersMod = False
+iconURLs = False
+spriteURLs = False
+
 __data_files = ['abilities.ts', 'formats-data.ts', 'items.ts', 'learnsets.ts', 'moves.ts', 'pokedex.ts', 'scripts.ts']
 __data_files_special = ['text-abilities.ts', 'text-items.ts', 'text-moves.ts']
 

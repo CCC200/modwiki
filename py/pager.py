@@ -1,4 +1,5 @@
 import os, shutil
+from py import cache
 
 # config vars
 site_title = 'Polished Wiki'
@@ -11,12 +12,12 @@ def build_header():
     f.close()
     return _head
 
-def build_dex(dex, tiers, sprites):
+def build_dex():
     print ('- dex')
-    for mon, data in dex.items():
-        __build_dex_page(mon, data, tiers[mon], sprites[mon])
+    for mon, data in cache.dexMod.items():
+        __build_dex_page(mon)
 
-def build_index(dex, ability, tiers, icons):
+def build_index():
     print('- index')
     f = open('pages/index.html')
     html = f.read()
@@ -24,19 +25,19 @@ def build_index(dex, ability, tiers, icons):
     # parse mon list
     buf = '<div class="dex-head"><h2 id="title">Pokémon</h2><h2 id="tier">Tier</h2></div>'
     buf += '<div class="dex-list" align="center">'
-    for mon, data in dex.items():
+    for mon, data in cache.dexMod.items():
         nameUTF = __mon_name_format(data['name'])
-        buf += f'<a href="dex/{mon}"><img id="dex-icon" src="{icons[mon]}"><span id="dex-name">{nameUTF}</span>'
+        buf += f'<a href="dex/{mon}"><img id="dex-icon" src="{cache.iconURLs[mon]}"><span id="dex-name">{nameUTF}</span>'
         buf += '<div class="dex-type"><h6 id="type-title">Type</h6><br>'
         for type in data['types']:
             buf += f'<img src="{__type_img(type)}">'
         abilityNames = []
         for a in data['abilities']:
-            abilityNames.append(ability[a]['name'])
+            abilityNames.append(cache.abilityMod[a]['name'])
         buf += f'</div><span id="dex-abilities"><h6>Abilities</h6><br>{' / '.join(abilityNames)}</span>'
         for stat in ['HP', 'Atk', 'Def', 'SpA', 'SpD', 'Spe']:
             buf += f'<div class="dex-bst"><h6>{stat}</h6><br>{data['bst'][stat.lower()]}</div>'
-        buf += f'<h3 id="dex-tier">{tiers[mon]}</h3></a>'
+        buf += f'<h3 id="dex-tier">{cache.tiersMod[mon]}</h3></a>'
     buf += "</div>"
     html = html.replace(__comment_tag('PAGE_BODY'), buf)
     # insert headers
@@ -51,7 +52,7 @@ def copy_assets():
     shutil.copytree('pages/assets', '_site/assets', dirs_exist_ok=True)
 
 
-def __build_dex_page(mon, data, tier, sprite):
+def __build_dex_page(mon):
     f = open('pages/dex.html')
     html_temp = f.read()
     f.close()
@@ -59,9 +60,10 @@ def __build_dex_page(mon, data, tier, sprite):
         os.mkdir('_site/dex')
     if not os.path.isdir(f'_site/dex/{mon}'):
         os.mkdir(f'_site/dex/{mon}')
+    data = cache.dexMod[mon]
     # name & mon display
     html = html_temp.replace('MON_NAME', __mon_name_format(data['name']))
-    html = html.replace('MON_SPRITE', sprite)
+    html = html.replace('MON_SPRITE', cache.spriteURLs[mon])
     # types
     buf = ''
     typeLen = len(data['types'])
@@ -73,7 +75,7 @@ def __build_dex_page(mon, data, tier, sprite):
             id ='first-type'
         buf += f'<img class="mon-type" id="{id}" src="{__type_img(data['types'][i])}">'
     html = html.replace(__comment_tag('MON_TYPE'), buf)
-    html = html.replace('MON_TIER', tier)
+    html = html.replace('MON_TIER', cache.tiersMod[mon])
     # bst
     buf = ''
     for stat in ['HP', 'Atk', 'Def', 'SpA', 'SpD', 'Spe']:

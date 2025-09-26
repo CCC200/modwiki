@@ -1,13 +1,6 @@
 from py import cache, parser, pager
 import sys, json
 
-dexMod = False
-movesMod = False
-abilityMod = False
-tiersMod = False
-iconURLs = False
-spriteURLs = False
-
 print('===== SITE BUILDER =====')
 update = False
 if '-nodl' not in sys.argv:
@@ -51,20 +44,20 @@ else:
         fdata = f.read()
         f.close()
         if name == 'dexMod':
-            dexMod = json.loads(fdata)
+            cache.dexMod = json.loads(fdata)
         elif name == 'movesMod':
-            movesMod = json.loads(fdata)
+            cache.movesMod = json.loads(fdata)
         elif name == 'abilityMod':
-            abilityMod = json.loads(fdata)
+            cache.abilityMod = json.loads(fdata)
         elif name == 'tiersMod':
-            tiersMod = json.loads(fdata)
+            cache.tiersMod = json.loads(fdata)
         elif name == 'iconURLs':
-            iconURLs = json.loads(fdata)
+            cache.iconURLs = json.loads(fdata)
         elif name == 'spriteURLs':
-            spriteURLs = json.loads(fdata)
+            cache.spriteURLs = json.loads(fdata)
 print('-----\nPaginating:')
 pager.__header_data = pager.build_header()
-pager.build_dex(dexMod, tiersMod, spriteURLs)
-pager.build_index(dexMod, abilityMod, tiersMod, iconURLs)
+pager.build_dex()
+pager.build_index()
 pager.copy_assets()
 print('===== FINISHED =====')

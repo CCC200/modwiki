@@ -90,8 +90,13 @@ def __build_dex_page(mon):
     # evolution
     if 'prevo' in data or 'evos' in data:
         buf = '<div class="evo-link"><h3>Evolutions</h3>'
+        prevEvos = []
         if 'prevo' in data and data['prevo'] in cache.dexMod:
-            buf += f'<a href="../{data['prevo']}">{__insert_dex_evo(data['prevo'])}</a> &#8592; '
+            prevEvos.append(data['prevo'])
+            if 'prevo' in cache.dexMod[data['prevo']]:
+                prevEvos.insert(0, cache.dexMod[data['prevo']]['prevo'])
+        for evo in prevEvos:
+            buf += f'<a href="../{evo}">{__insert_dex_evo(evo)}</a> &#8592; '
         buf += f'{__insert_dex_evo(mon)}'
         if 'evos' in data:
             buf += ' &#8594; '

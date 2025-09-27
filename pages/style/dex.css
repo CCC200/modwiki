@@ -50,3 +50,46 @@
         margin-left: 0.5em;
     }
 }
+.mon-overview {
+    margin-top: 1%;
+    #overview-body {
+        position:relative;
+        display: block;
+        padding: 1em;
+        padding-top: 0;
+        border: silver solid 1px;
+        border-top-width: 1px;
+        background: white;
+        font: bold 110% sans-serif;
+        text-align: left;
+        border-radius: 0.6em 0.6em 0.6em 0.6em;
+        box-shadow: 0 1px hsla(0, 0%, 100%, 0.8);
+        width: 85%;
+    }
+    h3 {
+        user-select: none;
+        margin-bottom: 0.5em;
+    }
+    .evo-link {
+        display: inline-block;
+        #evo-icon {
+            vertical-align: -20%;
+            margin-left: -10px;
+            margin-right: -10px;
+            width: 40px;
+            height: 30px;
+        }
+        a:hover {
+            #evo-name {
+                color: #666c85;
+            }
+        }
+    }
+    a:link, a:visited {
+        color: black;
+        text-decoration: none;
+    }
+    a:hover {
+        color: #666c85;
+    }
+}

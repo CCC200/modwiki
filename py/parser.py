@@ -47,10 +47,10 @@ def build_dex(mod='base', dexOverride=False):
         elif in_mon and line.find('prevo:') > -1: # pre-evolutions
             prevo = line[line.find('"')+1:]
             prevo = prevo[:prevo.find('"')]
-            prevo = prevo.lower()
-        elif in_mon and line.find('evos:') > -1:
+            prevo = prevo.lower().replace(' ', '').replace('.', '').replace('-', '').replace("\\u2019", '')
+        elif in_mon and line.find('evos:') > -1: # evos
             evos_s = line[line.find('[')+1:line.find(']')].replace(' ', '').replace('"', '')
-            evos_s = evos_s.lower()
+            evos_s = evos_s.lower().replace(' ', '').replace('.', '').replace('-', '').replace("\\u2019", '')
             evos = evos_s.split(',')
         elif in_mon and line.find('isCosmeticForme:') > -1: # special for polished formes
             is_cosmetic = True

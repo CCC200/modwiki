@@ -87,6 +87,26 @@ def __build_dex_page(mon):
             barDisplay = 80
         buf += f'<div class="stat">{stat}: {statNum}</div><div class="stat-bar" style="width: {barDisplay}%;"></div><br>'
     html = html.replace(__comment_tag('MON_STATS'), buf)
+    # evolution
+    if 'prevo' in data or 'evos' in data:
+        buf = '<div class="evo-link"><h3>Evolutions</h3>'
+        if 'prevo' in data and data['prevo'] in cache.dexMod:
+            buf += f'<a href="../{data['prevo']}">{__insert_dex_evo(data['prevo'])}</a> &#8592; '
+        buf += f'{__insert_dex_evo(mon)}'
+        if 'evos' in data:
+            buf += ' &#8594; '
+            evoLen = len(data['evos'])
+            for i in range(evoLen):
+                if data['evos'][i] in cache.dexMod:
+                    if i > 0:
+                        buf += ' <i>or</i> '
+                    buf += f'<a href="../{data['evos'][i]}">{__insert_dex_evo(data['evos'][i])}</a>'
+        buf += '</div>'
+    else:
+        buf = ''
+    html = html.replace(__comment_tag('MON_EVOLUTION'), buf)
+    # overview (TODO: THIS IS PLACEHOLDER)
+    html = html.replace(__comment_tag('MON_OVERVIEW'), 'No analysis is available for this species.')
     # insert headers
     html = __insert_header(html)
     html = __insert_title(html)
@@ -103,6 +123,9 @@ def __insert_header(html):
 def __insert_title(html):
     html = html.replace('SITE_TITLE', site_title)
     return html
+
+def __insert_dex_evo(mon):
+    return f'<img id="evo-icon" src="{cache.iconURLs[mon]}"> <span id="evo-name">{cache.dexMod[mon]['name']}</span>'
 
 def __type_img(t):
     return f'https://play.pokemonshowdown.com/sprites/types/{t}.png'

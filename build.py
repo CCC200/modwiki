@@ -36,15 +36,25 @@ if update or '-nocache' in sys.argv:
         f = open(f'_cache/{name}.json', 'w')
         f.write(json.dumps(data))
         f.close()
+    searchData = {
+        "dexlist": dexListMod['mons'],
+        "movelist": movesListMod['moves'],
+        "abilitylist": abilityListMod['abilities'],
+        "tierlist": tierListMod
+    }
+    f = open('_cache/search-data.json', 'w')
+    f.write(json.dumps(searchData))
+    f.close()
     cache.dexMod = dexMod
     cache.movesMod = movesMod
     cache.abilityMod = abilityMod
     cache.tiersMod = tiersMod
     cache.iconURLs = iconURLs
     cache.spriteURLs = spriteURLs
+    cache.searchData = searchData
 else:
     print('Loading cache:')
-    for name in ['dexMod', 'movesMod', 'abilityMod', 'tiersMod', 'iconURLs', 'spriteURLs']:
+    for name in ['dexMod', 'movesMod', 'abilityMod', 'tiersMod', 'iconURLs', 'spriteURLs', 'search-data']:
         print(f'- {name}')
         f = open(f'_cache/{name}.json')
         fdata = f.read()
@@ -61,6 +71,8 @@ else:
             cache.iconURLs = json.loads(fdata)
         elif name == 'spriteURLs':
             cache.spriteURLs = json.loads(fdata)
+        elif name == 'search-data':
+            cache.searchData = json.loads(fdata)
 print('-----\nPaginating:')
 pager.__header_data = pager.build_header()
 pager.build_dex()

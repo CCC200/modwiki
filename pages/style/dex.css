@@ -1,4 +1,4 @@
-#mon-name, #ability-header, #move-header {
+#mon-name, #ability-header, #move-header, #tier-header {
     text-align: center;
 }
 .mon-header {
@@ -34,6 +34,9 @@
         font-size: 115%;
         margin-top: 0.5em;
         margin-bottom: -0.1em;
+        a:hover {
+            color: #666c85;
+        }
     }
     .stat {
         display: inline-block;

@@ -27,6 +27,11 @@ def build_abilities():
     for ability in cache.searchData['abilitylist']:
         __build_ability_page(ability)
 
+def build_tiers():
+    print('- tiers')
+    for tier in cache.searchData['tierlist']:
+        __build_tier_page(tier)
+
 def build_index():
     print('- index')
     f = open('pages/index.html')
@@ -71,7 +76,9 @@ def __build_dex_page(mon):
             id ='first-type'
         buf += f'<img class="mon-type" id="{id}" src="{__type_img(data['types'][i])}">'
     html = html.replace(__comment_tag('MON_TYPE'), buf)
-    html = html.replace('MON_TIER', cache.tiersMod[mon])
+    # tier
+    buf = f'<a href="../../tier/{cache.tiersMod[mon].lower()}">Tier: {cache.tiersMod[mon]}</a>'
+    html = html.replace('MON_TIER', buf)
     # bst
     buf = ''
     for stat in ['HP', 'Atk', 'Def', 'SpA', 'SpD', 'Spe']:
@@ -127,7 +134,7 @@ def __build_dex_page(mon):
     __save(html, 'index.html', f'dex/{mon}')
 
 def __build_move_page(move):
-    f = open('pages/ability-move.html')
+    f = open('pages/data.html')
     html_temp = f.read()
     f.close()
     if not os.path.isdir('_site/move'):
@@ -136,7 +143,7 @@ def __build_move_page(move):
         os.mkdir(f'_site/move/{move}')
     # move
     data = cache.movesMod[move]
-    html = html_temp.replace('MOVE_ABILITY_NAME', data['name'])
+    html = html_temp.replace('DATA_NAME', data['name'])
     buf = __build_move_list([move], '../../')
     # mon learnset list
     monsWithMove = []
@@ -154,7 +161,7 @@ def __build_move_page(move):
     __save(html, 'index.html', f'move/{move}')
 
 def __build_ability_page(ability):
-    f = open('pages/ability-move.html')
+    f = open('pages/data.html')
     html_temp = f.read()
     f.close()
     if not os.path.isdir('_site/ability'):
@@ -163,7 +170,7 @@ def __build_ability_page(ability):
         os.mkdir(f'_site/ability/{ability}')
     # ability
     data = cache.abilityMod[ability]
-    html = html_temp.replace('MOVE_ABILITY_NAME', data['name'])
+    html = html_temp.replace('DATA_NAME', data['name'])
     buf = __build_ability_list([ability], '../../')
     # mon ability list
     monsWithAbility = []
@@ -179,6 +186,31 @@ def __build_ability_page(ability):
     html = __insert_title(html)
     html = html.replace('SITE_INDEX', '../..')
     __save(html, 'index.html', f'ability/{ability}')
+
+def __build_tier_page(tier):
+    f = open('pages/data.html')
+    html_temp = f.read()
+    f.close()
+    nameFlat = tier.lower()
+    if not os.path.isdir('_site/tier'):
+        os.mkdir('_site/tier')
+    if not os.path.isdir(f'_site/tier/{nameFlat}'):
+        os.mkdir(f'_site/tier/{nameFlat}')
+    # tier
+    html = html_temp.replace('DATA_NAME', tier)
+    monsInTier = []
+    for mon in cache.searchData['dexlist']:
+        if cache.tiersMod[mon] == tier:
+            monsInTier.append(mon)
+    monsInTier.sort()
+    buf = f'<h2 id="tier-header">{tier} Tier</h2>'
+    buf += __build_dex_list(monsInTier, '../../')
+    html = html.replace(__comment_tag('PAGE_BODY'), buf)
+    # insert headers
+    html = __insert_header(html)
+    html = __insert_title(html)
+    html = html.replace('SITE_INDEX', '../..')
+    __save(html, 'index.html', f'tier/{nameFlat}')
 
 def __build_ability_list(abilities, path=''):
     buf = '<div class="ability-list" align="center">'

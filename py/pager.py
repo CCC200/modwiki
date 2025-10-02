@@ -49,7 +49,7 @@ def build_index():
     # insert headers
     html = __insert_header(html)
     html = __insert_title(html)
-    html = html.replace('SITE_INDEX', '')
+    html = html.replace('SITE_INDEX', '.')
     __save(html, 'index.html')
     # category pages
     f = open('pages/category.html')
@@ -64,7 +64,7 @@ def build_index():
         html = html.replace(__comment_tag('PAGE_BODY'), buf)
         html = __insert_header(html)
         html = __insert_title(html)
-        html = html.replace('SITE_INDEX', '../')
+        html = html.replace('SITE_INDEX', '..')
         __save(html, 'index.html', f'{name}/')
 
 def copy_assets():

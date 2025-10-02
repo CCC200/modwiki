@@ -21,7 +21,7 @@ if update or '-nocache' in sys.argv:
     print(f'- {cache.mod} moves')
     movesMod, movesListMod = parser.build_moves(cache.mod, movesBase)
     print('- base items')
-    itemsBase, itemListBase = parser.build_items(cache.mod)
+    itemsBase, itemListBase = parser.build_items()
     print(f'- {cache.mod} items')
     itemsMod, itemListMod = parser.build_items(cache.mod, itemsBase)
     print(f'- {cache.mod} abilities')

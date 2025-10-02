@@ -17,7 +17,8 @@ h1, h2 {
 /* Base divs */
 #site-header h1 {
     text-align: center;
-    font-size: 50px;
+    font-size: 350%;
+    margin-bottom: 0;
 }
 #site-header, a:link, a:visited {
     color: black;
@@ -25,6 +26,16 @@ h1, h2 {
 }
 #mon-name, #ability-header, #move-header, #tier-header, #index-header {
     text-align: center;
+}
+#header-buttons {
+    text-align: center;
+    font-size: 110%;
+    h2 {
+        display: inline-block;
+    }
+    a:hover {
+        color: #666c85;
+    }
 }
 
 .dex-head {

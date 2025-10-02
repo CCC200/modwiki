@@ -38,11 +38,11 @@ def build_tiers():
         __build_tier_page(tier)
 
 def build_index():
-    print('- index')
+    print('- indexes')
     f = open('pages/index.html')
     html = f.read()
     f.close()
-    # parse mon list
+    # homepage dex
     buf = '<div class="dex-head"><h2 id="title">Pokémon</h2><h2 id="tier">Tier</h2></div>'
     buf += __build_dex_list(cache.searchData['dexlist'])
     html = html.replace(__comment_tag('PAGE_BODY'), buf)
@@ -51,12 +51,49 @@ def build_index():
     html = __insert_title(html)
     html = html.replace('SITE_INDEX', '')
     __save(html, 'index.html')
+    # category pages
+    f = open('pages/category.html')
+    html_temp = f.read()
+    f.close()
+    for cat, data in cache.searchData.items():
+        name = cat.replace('list', '').lower()
+        dname = __index_name(name)
+        html = html_temp.replace('CAT_NAME', dname)
+        buf = f'<h2 id="index-header">{dname}</h2>'
+        buf += __build_index_list(cat, data)
+        html = html.replace(__comment_tag('PAGE_BODY'), buf)
+        html = __insert_header(html)
+        html = __insert_title(html)
+        html = html.replace('SITE_INDEX', '../')
+        __save(html, 'index.html', f'{name}/')
 
 def copy_assets():
     print('- assets')
     shutil.copytree('pages/style', '_site/style', dirs_exist_ok=True)
     shutil.copytree('pages/assets', '_site/assets', dirs_exist_ok=True)
 
+
+def __index_name(s):
+    s = s.title()
+    if s.endswith('x'):
+        return s
+    elif s.endswith('y'):
+        s = s.replace('y', 'ies')
+    else:
+        s += 's'
+    return s
+
+def __build_index_list(cat, data):
+    if cat == 'dexlist':
+        return __build_dex_list(data, '../')
+    elif cat == 'movelist':
+        return __build_move_list(data, '../')
+    elif cat == 'itemlist':
+        return __build_item_list(data, '../')
+    elif cat == 'abilitylist':
+        return __build_ability_list(data, '../')
+    elif cat == 'tierlist':
+        return __build_tier_list(data, '../')
 
 def __build_dex_page(mon):
     f = open('pages/dex.html')
@@ -258,6 +295,14 @@ def __build_item_list(items, path=''):
     buf += '</div>'
     return buf
 
+def __build_tier_list(tiers, path=''):
+    tiers.sort()
+    buf = '<div class="tier-list" align="center">'
+    for t in tiers:
+        buf += f'<a href="{path}tier/{t.lower()}" {'id="tier-single"' if len(tiers) == 1 else ''}><span id="tier-name">{t}</span></a>'
+    buf += '</div>'
+    return buf
+
 def __build_move_list(moves, path=''):
     moves.sort()
     buf = '<div class="move-list" align="center">'
@@ -336,8 +381,6 @@ def __mon_name_format(name):
     return name.encode().decode('unicode-escape')
 
 def __save(data, n, path=''):
-    if not os.path.isdir('_site'):
-        os.mkdir('_site')
     html = open(f'_site/{path}/{n}', 'w', encoding='utf-8')
     html.write(data)
     html.close()

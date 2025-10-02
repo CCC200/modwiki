@@ -1,5 +1,5 @@
 from py import cache, parser, pager
-import sys, json
+import sys, json, os
 
 print('===== SITE BUILDER =====')
 update = False
@@ -82,6 +82,8 @@ else:
         elif name == 'search-data':
             cache.searchData = json.loads(fdata)
 print('-----\nPaginating:')
+if not os.path.isdir('_site'):
+    os.mkdir('_site')
 pager.__header_data = pager.build_header()
 pager.build_dex()
 pager.build_moves()

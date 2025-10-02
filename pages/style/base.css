@@ -23,6 +23,9 @@ h1, h2 {
     color: black;
     text-decoration: none;
 }
+#mon-name, #ability-header, #move-header, #tier-header, #index-header {
+    text-align: center;
+}
 
 .dex-head {
     display: flex;
@@ -112,13 +115,13 @@ h1, h2 {
     }
 }
 
-.ability-list, .item-list {
-    #ability-name, #item-name {
+.ability-list, .item-list, .tier-list {
+    #ability-name, #item-name, #tier-name {
         display: inline-block;
         min-width: 13%;
         max-width: 13%;
     }
-    #ability-desc, #item-desc {
+    #ability-desc, #item-desc, #tier-desc {
         display: inline-block;
     }
     a {
@@ -141,7 +144,7 @@ h1, h2 {
         border-radius: 0 0 0.6em 0.6em;
         box-shadow: 0 1px hsla(0, 0%, 100%, 0.8);
     }
-    #ability-single, #item-single {
+    #ability-single, #item-single, #tier-single {
         border-radius: 0.6em 0.6em 0.6em 0.6em;
         box-shadow: 0 1px hsla(0, 0%, 100%, 0.8);
     }
@@ -150,7 +153,7 @@ h1, h2 {
         text-decoration: none;
     }
     a:hover {
-        #ability-name {
+        #ability-name, #item-name, #tier-name {
             color: #666c85;
         }
     }

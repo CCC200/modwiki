@@ -99,7 +99,7 @@ def build_learnset(dex, mod='base'):
     ts_data = ts_data.replace('hijumpkick', 'highjumpkick') # polished override
     # parse learnset
     for mon, data in dex.items():
-        slice_data = ts_data[ts_data.find(mon):]
+        slice_data = ts_data[ts_data.find(mon+':'):]
         slice_data = slice_data[slice_data.find('learnset'):]
         slice_data = slice_data[slice_data.find('{')+1:slice_data.find('},')]
         slice_data = slice_data.split('],')

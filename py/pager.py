@@ -432,8 +432,9 @@ def __build_dex_list(mons, path=''):
         for a in data['abilities']:
             abilityNames.append(cache.abilityMod[a]['name'])
         buf += f'</div><span id="dex-abilities"><h6>Abilities</h6><br>{' / '.join(abilityNames)}</span>'
-        for stat in ['HP', 'Atk', 'Def', 'SpA', 'SpD', 'Spe']:
-            buf += f'<div class="dex-bst"><h6>{stat}</h6><br>{data['bst'][stat.lower()]}</div>'
+        statn = ['HP', 'Atk', 'Def', 'SpA', 'SpD', 'Spe']
+        for i in range(len(statn)):
+            buf += f'<div class="dex-bst" {'id="first-bst"' if i==0 else ''}><h6>{statn[i]}</h6><br>{data['bst'][statn[i].lower()]}</div>'
         buf += f'<h3 id="dex-tier">{cache.tiersMod[mon]}</h3></a>'
     buf += '</div>'
     return buf

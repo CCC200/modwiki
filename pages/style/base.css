@@ -13,7 +13,6 @@ h1, h2 {
     user-select: none;
 }
 
-
 /* Base divs */
 #site-header {
     margin-bottom: 1%;
@@ -43,12 +42,22 @@ h1, h2 {
 .search {
     font-size: 110%;
     #search-bar {
-        width: 50%;
+        @media screen and (min-width: 300px) {
+            width: 90%;
+        }
+        @media screen and (min-width: 800px) {
+            width: 50%;
+        }
         font-size: 110%;
     }
     #search-dropdown {
+        @media screen and (min-width: 300px) {
+            width: 90%;
+        }
+        @media screen and (min-width: 800px) {
+            width: 50%;
+        }
         display: none;
-        width: 50%;
         max-height: 50%;
         overflow: scroll;
         background-color: #f1f1f1;
@@ -86,42 +95,91 @@ h1, h2 {
 .dex-list {
     #dex-icon {
         display: inline-block;
-        vertical-align: middle;
         margin-left: -15px;
         width: 40px;
         height: 30px;
+        @media screen and (min-width: 300px) {
+            vertical-align: top;
+        }
+        @media screen and (min-width: 800px) {
+            vertical-align: middle;
+        }
     }
     #dex-name {
         display: inline-block;
         vertical-align: -25%;
-        min-width: 13%;
-        max-width: 13%;
+        @media screen and (min-width: 300px) {
+            vertical-align: top;
+            margin-top: 2%;
+        }
+        @media screen and (min-width: 800px) {
+            vertical-align: -25%;
+            margin-top: 0;
+            width: 13%;
+        }
     }
     .dex-type {
-        #type-title {
-            vertical-align: 15%;
-        }
         display: inline-block;
-        vertical-align: -30%;
-        min-width: 10%;
-        max-width: 10%;
+        @media screen and (min-width: 300px) {
+            #type-title {
+                display: none;
+            }
+            margin-left: 4%;
+            margin-top: -5%;
+        }
+        @media screen and (min-width: 800px) {
+            #type-title {
+                display: inline-block;
+                vertical-align: 15%;
+            }
+            margin-left: 0;
+            margin-top: 0;
+            vertical-align: -30%;
+            width: 10%;
+        }
     }
     #dex-abilities {
-        display: inline-block;
-        vertical-align: -25%;
-        min-width: 35%;
-        max-width: 35%;
+        @media screen and (min-width: 300px) {
+            display: block;
+            margin-left: 1.5%;
+            font: bold 85% sans-serif;
+        }
+        @media screen and (min-width: 800px) {
+            display: inline-block;
+            vertical-align: -25%;
+            width: 35%;
+            margin-left: 0;
+            font: bold 100% sans-serif;
+        }
+    }
+    #first-bst {
+        @media screen and (min-width: 300px) {
+            margin-left: -3%;
+        }
+        @media screen and (min-width: 800px) {
+            margin-left: 0;
+        }
     }
     .dex-bst {
+        @media screen and (min-width: 300px) {
+            width: 15%;
+        }
+        @media screen and (min-width: 800px) {
+            width: 3%;
+            vertical-align: -25%;
+        }
         display: inline-block;
-        vertical-align: -25%;
         text-align: center;
-        min-width: 3%;
-        max-width: 3%;
     }
     #dex-tier {
+        @media screen and (min-width: 300px) {
+            margin-top: -23%;
+        }
+        @media screen and (min-width: 800px) {
+            margin-top: 1%;
+        }
+        max-width: 12%;
         float: right;
-        vertical-align: middle;
     }
     h6 {
         display: inline-block;

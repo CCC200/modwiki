@@ -413,8 +413,8 @@ def __build_type_list(types, path=''):
     types.sort()
     buf = '<div class="type-list" align="center">'
     for t in types:
-        buf += f'<a href="{path}type/{t.lower()}" {'id="type-single"' if len(types) == 1 else ''}><span id="type-name">{t}</span>'
-        buf += f'<div id="type-detail"><img src="{__type_img(t)}"></div></a>'
+        buf += f'<a href="{path}type/{t.lower()}" {'id="type-single"' if len(types) == 1 else ''}>'
+        buf += f'<div id="type-detail"><img src="{__type_img(t)}"></div><span id="type-name">{t}</span></a>'
     buf += '</div>'
     return buf
 

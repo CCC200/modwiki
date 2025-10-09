@@ -34,12 +34,27 @@ h1, h2 {
     font-size: 110%;
     h2 {
         display: inline-block;
+        margin-bottom: 0;
     }
     a:hover {
         color: #666c85;
     }
+    #halfpoint-dot {
+        @media screen and (min-width: 300px) {
+            display: none;
+        }
+        @media screen and (min-width: 800px) {
+            display: inline-block;
+        }
+    }
 }
 .search {
+    @media screen and (min-width: 300px) {
+        margin-top: 5%;
+    }
+    @media screen and (min-width: 800px) {
+        margin-top: 0.5%;
+    }
     font-size: 110%;
     #search-bar {
         @media screen and (min-width: 300px) {
@@ -124,8 +139,8 @@ h1, h2 {
             #type-title {
                 display: none;
             }
-            margin-left: 4%;
-            margin-top: -5%;
+            margin-left: 1%;
+            margin-top: -5.2%;
         }
         @media screen and (min-width: 800px) {
             #type-title {
@@ -220,12 +235,22 @@ h1, h2 {
 
 .ability-list, .item-list, .tier-list {
     #ability-name, #item-name, #tier-name {
-        display: inline-block;
-        min-width: 13%;
-        max-width: 13%;
+        @media screen and (min-width: 300px) {
+            display: block;
+        }
+        @media screen and (min-width: 800px) {
+            display: inline-block;
+            min-width: 13%;
+            max-width: 13%;
+        }
     }
     #ability-desc, #item-desc, #tier-desc {
-        display: inline-block;
+        @media screen and (min-width: 300px) {
+            display: block;
+        }
+        @media screen and (min-width: 800px) {
+            display: inline-block;
+        }
     }
     a {
         position:relative;
@@ -264,25 +289,57 @@ h1, h2 {
 
 .move-list, .type-list {
     #move-name {
-        display: inline-block;
-        vertical-align: middle;
-        min-width: 13%;
-        max-width: 13%;
+        @media screen and (min-width: 300px) {
+            display: block;
+            vertical-align: top;
+        }
+        @media screen and (min-width: 800px) {
+            display: inline-block;
+            vertical-align: middle;
+            width: 13%;
+        }
     }
     #type-name {
         display: inline-block;
         vertical-align: -25%;
-        min-width: 5%;
-        max-width: 5%;
+        @media screen and (min-width: 300px) {
+            width: 25%;
+        }
+        @media screen and (min-width: 800px) {
+            width: 8%;
+        }
     }
-    .move-detail, #type-detail {
+    .move-detail {
         display: inline-block;
         vertical-align: -25%;
-        min-width: 5%;
-        max-width: 5%;
+        @media screen and (min-width: 300px) {
+            width: 20%;
+        }
+        @media screen and (min-width: 800px) {
+            width: 5%;
+        }
+    }
+    #type-detail {
+        display: inline-block;
+        vertical-align: -25%;
+        @media screen and (min-width: 300px) {
+            width: 15%;
+        }
+        @media screen and (min-width: 800px) {
+            width: 2.5%;
+        }
     }
     #move-desc {
-        display: inline-block;
+        @media screen and (min-width: 300px) {
+            display: block;
+            font: bold 85% sans-serif;
+            margin-top: 2%;
+        }
+        @media screen and (min-width: 800px) {
+            display: inline-block;
+            font: bold 100% sans-serif;
+            margin-top: 0;
+        }
         vertical-align: middle;
     }
     h6 {

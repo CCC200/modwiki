@@ -177,31 +177,36 @@ def __build_dex_page(mon):
     # evolution
     prevEvos = []
     if 'prevo' in data or 'evos' in data:
-        buf = '<div class="evo-link"><h3>Evolutions</h3>'
+        buf = '<h3>Evolutions</h3>'
         if 'prevo' in data and data['prevo'] in cache.dexMod:
             prevEvos.append(data['prevo'])
             if 'prevo' in cache.dexMod[data['prevo']]:
                 prevEvos.insert(0, cache.dexMod[data['prevo']]['prevo'])
         for evo in prevEvos:
-            buf += f'<a href="../{evo}">{__insert_dex_evo(evo)}</a> &#8592; '
-        buf += f'{__insert_dex_evo(mon)}'
+            buf += f'<div class="evo-link"><a href="../{evo}">{__insert_dex_evo(evo)}</a> &#8592; </div>'
+        buf += f'<div class="evo-link">{__insert_dex_evo(mon)}'
         if 'evos' in data:
-            buf += ' &#8594; '
+            buf += ' &#8594; </div>'
             evoLen = len(data['evos'])
             for i in range(evoLen):
                 if data['evos'][i] in cache.dexMod:
-                    if i > 0:
+                    buf += f'<div class="evo-link"><a href="../{data['evos'][i]}">{__insert_dex_evo(data['evos'][i])}</a>'
+                    if i < evoLen-1:
                         buf += ' &nbsp;<i>or</i>&nbsp; '
-                    buf += f'<a href="../{data['evos'][i]}">{__insert_dex_evo(data['evos'][i])}</a>'
                     if 'evos' in cache.dexMod[data['evos'][i]]:
-                        buf += ' &#8594; '
+                        buf += ' &#8594; </div>'
                         nextEvoLen = len(cache.dexMod[data['evos'][i]]['evos'])
                         for j in range(nextEvoLen):
-                            if j > 0:
-                                buf += ' &nbsp;<i>or</i>&nbsp; '
                             nextEvo = cache.dexMod[data['evos'][i]]['evos'][j]
-                            buf += f'<a href="../{nextEvo}">{__insert_dex_evo(nextEvo)}</a>'
-        buf += '</div>'
+                            buf += f'<div class="evo-link"><a href="../{nextEvo}">{__insert_dex_evo(nextEvo)}</a>'
+                            if j < nextEvoLen-1:
+                                buf += ' &nbsp;<i>or</i>&nbsp;</div>'
+                            else:
+                                buf += '</div>'
+                    else:
+                        buf += '</div>'
+        else:
+            buf += '</div>'
     else:
         buf = ''
     html = html.replace(__comment_tag('MON_EVOLUTION'), buf)

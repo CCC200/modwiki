@@ -1,7 +1,6 @@
 .mon-header {
     .header-body {
         position:relative;
-        display: inline-block;
         padding: 1em;
         padding-top: 0.25em;
         border: silver solid 1px;
@@ -13,13 +12,35 @@
         box-shadow: 0 1px hsla(0, 0%, 100%, 0.8);
         user-select: none;
     }
+    #mon-body {
+        @media screen and (min-width: 300px) {
+            display: block;
+            width: 90%;
+            margin-bottom: 1%;
+        }
+        @media screen and (min-width: 800px) {
+            display: inline-block;
+            width: 15%;
+            margin-bottom: 0;
+        }
+    }
+    #stat-body {
+        vertical-align: top;
+        @media screen and (min-width: 300px) {
+            display: block;
+            width: 90%;
+        }
+        @media screen and (min-width: 800px) {
+            display: inline-block;
+            width: 40%;
+        }
+    }
     #mon-sprite {
         display: block;
         width: 192px;
         height: 192px;
         margin-top: -1em;
         margin-bottom: -1em;
-            
     }
     .mon-type {
         display: inline-block;
@@ -30,24 +51,36 @@
         display: block;
         font-size: 115%;
         margin-top: 0.5em;
-        margin-bottom: -0.1em;
+        margin-bottom: -0.2em;
         a:hover {
             color: #666c85;
         }
     }
     .stat {
         display: inline-block;
-        min-width: 15%;
-        max-width: 15%;
-        text-align: center;
         margin-top: 0.65em;
+        @media screen and (min-width: 300px) {
+            width: 25%;
+            text-align: left;
+        }
+        @media screen and (min-width: 800px) {
+            width: 15%;
+            text-align: center;
+        }
     }
     .stat-bar {
-        display: inline-block;
+        @media screen and (min-width: 300px) {
+            display: block;
+            margin-bottom: -1.25em;
+        }
+        @media screen and (min-width: 800px) {
+            display: inline-block;
+            margin-left: 0.5em;
+            margin-bottom: 0;
+        }
         vertical-align: -10%;
         background-color: dodgerblue;
         height: 1em;
-        margin-left: 0.5em;
     }
 }
 .mon-overview {
@@ -64,14 +97,26 @@
         text-align: left;
         border-radius: 0.6em 0.6em 0.6em 0.6em;
         box-shadow: 0 1px hsla(0, 0%, 100%, 0.8);
-        width: 85%;
+        @media screen and (min-width: 300px) {
+            width: 90%;
+        }
+        @media screen and (min-width: 800px) {
+            width: 85%;
+        }
     }
     h3 {
         user-select: none;
         margin-bottom: 0.5em;
     }
     .evo-link {
-        display: inline-block;
+        @media screen and (min-width: 300px) {
+            display: block;
+            margin-bottom: 1%;
+        }
+        @media screen and (min-width: 800px) {
+            display: inline-block;
+            margin-bottom: 0;
+        }
         #evo-icon {
             vertical-align: -20%;
             margin-left: -5px;

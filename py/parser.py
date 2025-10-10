@@ -26,29 +26,29 @@ def build_dex(mod='base', dexOverride=False):
         elif line.find(': {') > -1 and in_mon == False: # open object
             in_mon = True
             name = line.split(':')[0].strip()
-        elif in_mon and line.find('name:') > -1: # explicit name
+        elif in_mon and not dname and line.find('name:') > -1: # explicit name
             dname = line[line.find('"')+1:]
             dname = dname[:dname.find('"')]
-        elif in_mon and line.find('baseStats:') > -1: # bst
+        elif in_mon and not bst and line.find('baseStats:') > -1: # bst
             bst_s = line[line.find('{')+1:line.find('}')].split(',')
             for i in range(len(bst_s)):
                 bst_s[i] = '"' + bst_s[i]
                 bst_s[i] = bst_s[i].replace(' ', '').replace(':', '":')
             bst_s = '{' + ','.join(bst_s) + '}'
             bst = json.loads(bst_s)
-        elif in_mon and line.find('types:') > -1: # type
+        elif in_mon and not types and line.find('types:') > -1: # type
             types_s = line[line.find('[')+1:line.find(']')].replace(' ', '').replace('"', '')
             types = types_s.split(',')
-        elif in_mon and line.find('abilities:') > -1: # abilities
+        elif in_mon and not abil and line.find('abilities:') > -1: # abilities
             abil_s = line[line.find('{')+1:line.find('}')]
             abil_s = abil_s.replace('0:', '').replace('1:', '').replace('H:', '').replace('S:', '')
             abil_s = abil_s.replace('"', '').replace(' ', '').replace('-', '').lower()
             abil = abil_s.split(',')
-        elif in_mon and line.find('prevo:') > -1: # pre-evolutions
+        elif in_mon and not prevo and line.find('prevo:') > -1: # pre-evolutions
             prevo = line[line.find('"')+1:]
             prevo = prevo[:prevo.find('"')]
             prevo = prevo.lower().replace(' ', '').replace('.', '').replace('-', '').replace("\\u2019", '')
-        elif in_mon and line.find('evos:') > -1: # evos
+        elif in_mon and not evos and line.find('evos:') > -1: # evos
             evos_s = line[line.find('[')+1:line.find(']')].replace(' ', '').replace('"', '')
             evos_s = evos_s.lower().replace(' ', '').replace('.', '').replace('-', '').replace("\\u2019", '')
             evos = evos_s.split(',')
@@ -139,26 +139,26 @@ def build_moves(mod='base', moveOverride=False):
             name = line.split(':')[0].strip().replace('"', '')
             if name == 'hijumpkick': # polished override
                 name = 'highjumpkick'
-        elif in_move and line.find('name:') > -1: # explicit name
+        elif in_move and not dname and line.find('name:') > -1: # explicit name
             dname = line[line.find('"')+1:]
             dname = dname[:dname.find('"')]
-        elif in_move and line.find('category:') > -1: # phys/spec category
+        elif in_move and not cat and line.find('category:') > -1: # phys/spec category
             cat = line[line.find('"')+1:]
             cat = cat[:cat.find('"')]
-        elif in_move and line.find('accuracy:') > -1: # accuracy
+        elif in_move and not acc and line.find('accuracy:') > -1: # accuracy
             acc_s = line[line.find(':')+1:line.find(',')]
             acc = acc_s.strip()
             acc = '100' if acc == 'true' else acc
-        elif in_move and line.find('basePower:') > -1: # bp
+        elif in_move and not bp and line.find('basePower:') > -1: # bp
             bp_s = line[line.find(':')+1:line.find(',')]
             bp = bp_s.strip()
-        elif in_move and line.find('pp:') > -1: # pp
+        elif in_move and not pp and line.find('pp:') > -1: # pp
             pp_s = line[line.find(':')+1:line.find(',')]
             pp = pp_s.strip()
-        elif in_move and line.find('type:') > -1: # type
+        elif in_move and not type and line.find('type:') > -1: # type
             type = line[line.find('"')+1:]
             type = type[:type.find('"')]
-        elif in_move and line.find('shortDesc:') > -1:
+        elif in_move and not desc and line.find('shortDesc:') > -1:
             desc = line[line.find('"')+1:]
             desc = desc[:desc.find('"')]
         elif in_move and moveOverride and line.find('isNonstandard:') > -1:
@@ -223,10 +223,10 @@ def build_items(mod='base', itemOverride=False):
         elif line.find(': {') > -1 and in_item == False: # open object
             in_item = True
             name = line.split(':')[0].strip().replace('"', '')
-        elif in_item and line.find('name:') > -1: # explicit name
+        elif in_item and not dname and line.find('name:') > -1: # explicit name
             dname = line[line.find('"')+1:]
             dname = dname[:dname.find('"')]
-        elif in_item and line.find('shortDesc:') > -1:
+        elif in_item and not desc and line.find('shortDesc:') > -1:
             desc = line[line.find('"')+1:]
             desc = desc[:desc.find('"')]
         elif in_item and line.find('\t},') > -1 or in_item and line.find('    },') > -1: # close object

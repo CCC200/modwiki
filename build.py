@@ -1,4 +1,5 @@
 from py import cache, parser, pager
+from datetime import datetime
 import sys, json, os
 
 print('===== SITE BUILDER =====')
@@ -88,6 +89,7 @@ print('-----\nPaginating:')
 if not os.path.isdir('_site'):
     os.mkdir('_site')
 pager.__header_data = pager.build_header()
+pager.__sitetime = datetime.now().strftime('%Y-%m-%d %H:%M:%S %Z')
 pager.build_dex()
 pager.build_moves()
 pager.build_items()

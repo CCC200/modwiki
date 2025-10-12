@@ -12,6 +12,10 @@ body {
 h1, h2 {
     user-select: none;
 }
+footer {
+    text-align: center;
+    margin-top: 1%;
+}
 
 /* Base divs */
 #site-header {

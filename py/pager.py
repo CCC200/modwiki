@@ -5,6 +5,7 @@ from py import cache
 site_title = 'Polished Wiki'
 
 __header_data = False
+__sitetime = False
 
 def build_header():
     f = open('pages/site-header.html')
@@ -444,6 +445,7 @@ def __comment_tag(n):
 
 def __insert_header(html):
     html = html.replace(__comment_tag('SITE_HEADER'), __header_data)
+    html = html.replace('</html>', f'<footer><small>Last edit {__sitetime}</small></footer></html>')
     return html
 
 def __insert_title(html):

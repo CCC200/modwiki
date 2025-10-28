@@ -1,8 +1,8 @@
 # modwiki
 Create self-updating dex sites for Pokemon Showdown mods.
 
-[!IMPORTANT]
-This repo is primarily setup to support a single mod that is being maintained by the repo owner. It might support others out of the box, but expect the possibility of needing to change the codebase.
+> [!IMPORTANT]
+> This repo is primarily designed to support a single mod. It might support others out of the box but expect the possibility of needing to change the codebase.
 
 ## Setup
 1. Fork the repo and clone it to a machine capable of serving to your webserver/pages site etc.

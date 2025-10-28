@@ -192,7 +192,7 @@ def __build_dex_page(mon):
             for i in range(evoLen):
                 if data['evos'][i] in cache.dexMod:
                     buf += f'<div class="evo-link"><a href="../{data['evos'][i]}">{__insert_dex_evo(data['evos'][i])}</a>'
-                    if i < evoLen-1:
+                    if i < evoLen-1 and data['evos'][i+1] in cache.dexMod:
                         buf += ' &nbsp;<i>or</i>&nbsp; '
                     if 'evos' in cache.dexMod[data['evos'][i]]:
                         buf += ' &#8594; </div>'

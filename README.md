@@ -1,5 +1,5 @@
 # modwiki
-#### [Demo Site](https://polishedwiki.github.io/])
+#### [Demo Site](https://polishedwiki.github.io/)
 Create self-updating dex sites for Pokemon Showdown mods.
 
 > [!IMPORTANT]

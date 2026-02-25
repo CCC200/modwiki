@@ -58,6 +58,7 @@ def build_dex(mod='base', dexOverride=False):
             in_mon = False
             if is_cosmetic:
                 is_cosmetic = False
+                dname = False
                 continue
             if name == 'egg':
                 continue

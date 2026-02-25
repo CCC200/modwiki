@@ -1,6 +1,6 @@
 from py import cache, parser, pager
 from datetime import datetime
-import sys, json, os
+import sys, json, os, config
 
 print('===== SITE BUILDER =====')
 update = False
@@ -12,27 +12,27 @@ if '-nodl' not in sys.argv:
 if update or '-nocache' in sys.argv:
     print(f'Building site data:\n- base dex')
     dexBase, dexListBase = parser.build_dex()
-    print(f'- {cache.mod} dex')
-    dexMod, dexListMod = parser.build_dex(cache.mod, dexBase)
-    print(f'- {cache.mod} learnsets')
-    dexMod = parser.build_learnset(dexMod, cache.mod)
+    print(f'- {config.mod} dex')
+    dexMod, dexListMod = parser.build_dex(config.mod, dexBase)
+    print(f'- {config.mod} learnsets')
+    dexMod = parser.build_learnset(dexMod, config.mod)
     print('- base moves')
     movesBase, movesListBase = parser.build_moves()
     movesBase = parser.fill_move_text(movesBase)
-    print(f'- {cache.mod} moves')
-    movesMod, movesListMod = parser.build_moves(cache.mod, movesBase)
+    print(f'- {config.mod} moves')
+    movesMod, movesListMod = parser.build_moves(config.mod, movesBase)
     print('- base items')
     itemsBase, itemListBase = parser.build_items()
-    print(f'- {cache.mod} items')
-    itemsMod, itemListMod = parser.build_items(cache.mod, itemsBase)
-    print(f'- {cache.mod} abilities')
+    print(f'- {config.mod} items')
+    itemsMod, itemListMod = parser.build_items(config.mod, itemsBase)
+    print(f'- {config.mod} abilities')
     abilityListMod = parser.get_ability_list(dexMod)
     abilityBase = parser.build_abilities(abilityListMod)
-    abilityMod = parser.build_abilities(abilityListMod, cache.mod, abilityBase)
-    print(f'- {cache.mod} tiers')
+    abilityMod = parser.build_abilities(abilityListMod, config.mod, abilityBase)
+    print(f'- {config.mod} tiers')
     tiersBase, tierListBase = parser.build_format_tiers(dexMod)
-    tiersMod, tierListMod = parser.build_format_tiers(dexMod, cache.mod, tiersBase)
-    print(f'- {cache.mod} types')
+    tiersMod, tierListMod = parser.build_format_tiers(dexMod, config.mod, tiersBase)
+    print(f'- {config.mod} types')
     typeListMod = parser.get_type_list(dexMod)
     print('- dex icons', end='\r')
     iconURLs = cache.icons(dexMod)

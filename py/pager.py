@@ -1,8 +1,5 @@
-import os, shutil, json
+import os, shutil, json, config
 from py import cache
-
-# config vars
-site_title = 'Polished Wiki'
 
 __header_data = False
 __sitetime = False
@@ -456,7 +453,7 @@ def __insert_header(html):
     return html
 
 def __insert_title(html):
-    html = html.replace('SITE_TITLE', site_title)
+    html = html.replace('SITE_TITLE', config.title)
     return html
 
 def __insert_dex_evo(mon):

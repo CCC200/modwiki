@@ -7,9 +7,8 @@ Create self-updating dex sites for Pokemon Showdown mods.
 
 ## Setup
 Select **Use this template > Create a new repository** to fork the repo. Clone it to your machine, then edit the following files to be suitable for your mod: 
-1. Open `py/cache.py` and set the `repo` value to your pokemon-showdown server repository, and `mod` to the name of the mod folder the wiki will pull data from.
-2. Open `py/pager.py` and set `site_title` to something appropriate for the mod.
-3. You may also want to change `pages/assets/favicon.ico` to a custom icon.
+1. Open `config.py` and set the `repo` value to your pokemon-showdown server repository, `mod` to the name of the mod folder the wiki will pull data from, and `title` to something appropriate for your site.
+2. You may also want to change `pages/assets/favicon.ico` to a custom icon.
 
 ## Github Pages
 If you'd wish to have your wiki automatically hosted on pages, there is a workflow already setup:

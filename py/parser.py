@@ -1,4 +1,18 @@
 import json
+def find_exact_key(ts_data, key):
+    """
+    Finds the index of a key in a TypeScript file string, 
+    ensuring it matches the whole word and not a substring.
+    """
+    search_str = key + ':'
+    idx = ts_data.find(search_str)
+    
+    # If found, check if the character before it is alphanumeric.
+    # If it is, it's a substring (e.g., 'roar' in 'nobleroar'), so keep searching.
+    while idx != -1 and ts_data[idx - 1].isalnum():
+        idx = ts_data.find(search_str, idx + 1)
+        
+    return idx
 
 def build_dex(mod='base', dexOverride=False):
     data_file = open(f'_cache/{mod}/pokedex.ts')
@@ -100,15 +114,17 @@ def build_learnset(dex, mod='base'):
     ts_data = ts_data.replace('hijumpkick', 'highjumpkick') # polished override
     # parse learnset
     for mon, data in dex.items():
-        slice_data = ts_data[ts_data.find(mon+':'):]
-        slice_data = slice_data[slice_data.find('learnset'):]
-        slice_data = slice_data[slice_data.find('{')+1:slice_data.find('},')]
-        slice_data = slice_data.split('],')
-        for i in range(len(slice_data)):
-            slice_data[i] = slice_data[i][:slice_data[i].find(':')]
-            slice_data[i] = slice_data[i].strip().replace(' ', '')
-        slice_data.pop() # remove empty last element
-        dex[mon]['learnset'] = slice_data
+        index = find_exact_key(ts_data, mon)
+        if index != -1:
+            slice_data = ts_data[index:]
+            slice_data = slice_data[slice_data.find('learnset'):]
+            slice_data = slice_data[slice_data.find('{')+1:slice_data.find('},')]
+            slice_data = slice_data.split('],')
+            for i in range(len(slice_data)):
+                slice_data[i] = slice_data[i][:slice_data[i].find(':')]
+                slice_data[i] = slice_data[i].strip().replace(' ', '')
+            slice_data.pop() # remove empty last element
+            dex[mon]['learnset'] = slice_data
     return dex
 
 def build_moves(mod='base', moveOverride=False):
@@ -257,11 +273,14 @@ def fill_move_text(moves):
     data_file.close()
     for move, data in moves.items():
         if 'desc' not in data:
-            slice_data = ts_data[ts_data.find(move+':'):]
-            slice_data = slice_data[slice_data.find('shortDesc:'):]
-            slice_data = slice_data[slice_data.find('"')+1:]
-            slice_data = slice_data[:slice_data.find('"')]
-            moves[move]['desc'] = slice_data
+            index = find_exact_key(ts_data, move)
+
+            if index != -1:
+                slice_data = ts_data[index:]
+                slice_data = slice_data[slice_data.find('shortDesc:'):]
+                slice_data = slice_data[slice_data.find('"')+1:]
+                slice_data = slice_data[:slice_data.find('"')]
+                moves[move]['desc'] = slice_data
     return moves
 
 def build_abilities(abilitylist, mod='base', abilityOverride=False):
@@ -273,10 +292,11 @@ def build_abilities(abilitylist, mod='base', abilityOverride=False):
     if abilityOverride:
         abilities = abilityOverride
     for a in abilitylist['abilities']:
-        if ts_data.find(a+':') > -1:
+        index = find_exact_key(ts_data, a)
+        if index != -1:
             if a not in abilities:
                 abilities[a] = {}
-            slice_data_str = ts_data[ts_data.find(a+':'):]
+            slice_data_str = ts_data[index:]
             if slice_data_str.find('name:') > -1:
                 slice_data = slice_data_str[slice_data_str.find('name:'):]
                 slice_data = slice_data[slice_data.find('"')+1:]
@@ -310,8 +330,9 @@ def build_format_tiers(dex, mod='base', tierOverride=False):
     if tierOverride:
         tiers = tierOverride
     for name, data in dex.items():
-        if ts_data.find(name+':') > -1:
-            slice_data_str = ts_data[ts_data.find(name+':'):]
+        index = find_exact_key(ts_data, name)
+        if index != -1:
+            slice_data_str = ts_data[index:]
             if slice_data_str.find('tier:') > -1:
                 slice_data = slice_data_str[slice_data_str.find('tier:'):]
                 slice_data = slice_data[slice_data.find('"')+1:]

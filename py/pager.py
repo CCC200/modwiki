@@ -225,6 +225,8 @@ def __build_dex_page(mon):
     __save(html, 'index.html', f'dex/{mon}')
 
 def __build_move_page(move):
+    if 'hiddenpower' in move and move != 'hiddenpower': # ignore HP variants
+        return
     f = open('pages/data.html')
     html_temp = f.read()
     f.close()
@@ -384,6 +386,8 @@ def __build_move_list(moves, path=''):
     moves.sort()
     buf = '<div class="move-list" align="center">'
     for m in moves:
+        if 'hiddenpower' in m and m != 'hiddenpower': # ignore HP variants
+            continue
         move = cache.movesMod[m]
         # name / category / type
         buf += f'<a href="{path}move/{m}" {'id="move-single"' if len(moves) == 1 else ''}><span id="move-name">{move['name']}</span>'

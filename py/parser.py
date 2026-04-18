@@ -56,7 +56,7 @@ def build_dex(mod='base', dexOverride=False):
         elif in_mon and not abil and line.find('abilities:') > -1: # abilities
             abil_s = line[line.find('{')+1:line.find('}')]
             abil_s = abil_s.replace('0:', '').replace('1:', '').replace('H:', '').replace('S:', '')
-            abil_s = abil_s.replace('"', '').replace(' ', '').replace('-', '').lower()
+            abil_s = abil_s.replace('"', '').replace("'", '').replace(' ', '').replace('-', '').lower()
             abil = abil_s.split(',')
         elif in_mon and not prevo and line.find('prevo:') > -1: # pre-evolutions
             prevo = line[line.find('"')+1:]

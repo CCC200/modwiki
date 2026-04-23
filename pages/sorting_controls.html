@@ -1,0 +1,67 @@
+<div class="dex-controls-container">
+    <div class="controls-grid">
+        
+        <!-- Search Section -->
+        <div class="control-section search-section">
+            <label>Search</label>
+            <input type="text" id="dex-search" placeholder="Search by name...">
+        </div>
+
+        <!-- Primary Sort -->
+        <div class="control-section">
+            <label>Primary Sort</label>
+            <div class="input-group">
+                <select id="primary-sort">
+                    <option value="name" selected>Name</option>
+                    <option value="hp">HP</option>
+                    <option value="atk">Attack</option>
+                    <option value="def">Defense</option>
+                    <option value="spa">Sp. Atk</option>
+                    <option value="spd">Sp. Def</option>
+                    <option value="spe">Speed</option>
+                    <option value="bst">BST Total</option>
+                    <option value="tier">Tier</option>
+                </select>
+                <button type="button" class="dir-toggle" id="primary-dir" data-dir="asc" onclick="toggleDir(this)">A-Z</button>
+            </div>
+        </div>
+
+        <!-- Secondary Sort (Tie-breaker) -->
+        <div class="control-section">
+            <label>Tie-breaker</label>
+            <div class="input-group">
+                <select id="secondary-sort">
+                    <option value="none" selected>None</option>
+                    <option value="name">Name</option>
+                    <option value="hp">HP</option>
+                    <option value="atk">Attack</option>
+                    <option value="def">Defense</option>
+                    <option value="spa">Sp. Atk</option>
+                    <option value="spd">Sp. Def</option>
+                    <option value="spe">Speed</option>
+                    <option value="bst">BST Total</option>
+                    <option value="tier">Tier</option>
+                </select>
+                <button type="button" class="dir-toggle" id="secondary-dir" data-dir="asc" onclick="toggleDir(this)">A-Z</button>
+            </div>
+        </div>
+
+        <!-- Action Button -->
+        <div class="control-section action-section">
+            <button id="apply-filters" onclick="applyDexChanges()">Apply Sort & Search</button>
+        </div>
+    </div>
+
+    <style>
+        .dex-controls-container { background: #eee; padding: 15px; border-radius: 8px; margin: 20px 0; font-family: sans-serif; }
+        .controls-grid { display: flex; flex-wrap: wrap; gap: 15px; align-items: flex-end; justify-content: center; }
+        .control-section { display: flex; flex-direction: column; gap: 5px; }
+        .control-section label { font-size: 11px; font-weight: bold; text-transform: uppercase; color: #444; }
+        .input-group { display: flex; border: 1px solid #ccc; border-radius: 4px; overflow: hidden; background: white; }
+        .input-group select, #dex-search { padding: 6px; border: none; outline: none; }
+        .dir-toggle { background: #ddd; border: none; border-left: 1px solid #ccc; padding: 0 10px; cursor: pointer; font-size: 11px; min-width: 45px; }
+        .dir-toggle:hover { background: #ccc; }
+        #apply-filters { background: #28a745; color: white; border: none; padding: 8px 20px; border-radius: 4px; cursor: pointer; font-weight: bold; height: 35px; }
+        #apply-filters:hover { background: #218838; }
+    </style>
+</div>

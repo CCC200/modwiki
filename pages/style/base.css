@@ -209,6 +209,7 @@ footer {
     a {
         position:relative;
         display: block;
+        clear: right;
         padding: 1em;
         padding-top: 0.25em;
         border: silver solid 1px;

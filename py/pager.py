@@ -429,22 +429,67 @@ def __build_type_list(types, path=''):
 
 def __build_dex_list(mons, path=''):
     mons.sort()
-    buf = '<div class="dex-list" align="center">'
+    
+    # Load files
+    with open('_assets/sorting_logic.js', 'r') as f:
+        logic_js = f"<script>{f.read()}</script>"
+    with open('_assets/sorting_controls.html', 'r') as f:
+        controls_html = f.read()
+
+    buf = logic_js + controls_html
+    buf += '<div class="dex-list" align="center" id="dex-grid">'
+    
     for mon in mons:
         data = cache.dexMod[mon]
+        
+
         nameUTF = __mon_name_format(data['name'])
-        buf += f'<a href="{path}dex/{mon}"><img id="dex-icon" src="{cache.iconURLs[mon]}"><span id="dex-name">{nameUTF}</span>'
+        bst_values = data['bst']
+        bst_total = sum(int(bst_values.get(s, 0)) for s in ['hp', 'atk', 'def', 'spa', 'spd', 'spe'])
+        
+        complete_data = {
+            "name": nameUTF,
+            "types": data["types"],
+            "bst": bst_values,
+            "abilities": [cache.abilityMod[a]['name'] for a in data["abilities"]],
+            "tier": cache.tiersMod.get(mon, "Untiered"),
+            "bst_total": bst_total
+        }
+        
+        # INJECT DATA ATTRIBUTES
+        buf += f'<a href="{path}dex/{mon}" class="dex-card" '
+        buf += f'data-name="{complete_data["name"].lower()}" '
+        buf += f'data-hp="{complete_data["bst"]["hp"]}" '
+        buf += f'data-atk="{complete_data["bst"]["atk"]}" '
+        buf += f'data-def="{complete_data["bst"]["def"]}" '
+        buf += f'data-spa="{complete_data["bst"]["spa"]}" '
+        buf += f'data-spd="{complete_data["bst"]["spd"]}" '        
+        buf += f'data-spe="{complete_data["bst"]["spe"]}" '
+        buf += f'data-bst="{complete_data["bst_total"]}" '
+        buf += f'data-tier="{complete_data["tier"]}">'
+
+        # Icon and Name
+        buf += f'<img id="dex-icon" src="{cache.iconURLs[mon]}"><span id="dex-name">{nameUTF}</span>'
+        
+        # Types
         buf += '<div class="dex-type"><h6 id="type-title">Type</h6><br>'
-        for type in data['types']:
-            buf += f'<img src="{__type_img(type)}">'
-        abilityNames = []
-        for a in data['abilities']:
-            abilityNames.append(cache.abilityMod[a]['name'])
-        buf += f'</div><span id="dex-abilities"><h6>Abilities</h6><br>{' / '.join(abilityNames)}</span>'
+        for t in complete_data['types']:
+            buf += f'<img src="{__type_img(t)}">'
+        buf += '</div>'
+        
+        # Abilities
+        buf += f'<span id="dex-abilities"><h6>Abilities</h6><br>{" / ".join(complete_data["abilities"])}</span>'
+        
+        # BST Display
         statn = ['HP', 'Atk', 'Def', 'SpA', 'SpD', 'Spe']
-        for i in range(len(statn)):
-            buf += f'<div class="dex-bst" {'id="first-bst"' if i==0 else ''}><h6>{statn[i]}</h6><br>{data['bst'][statn[i].lower()]}</div>'
-        buf += f'<h3 id="dex-tier">{cache.tiersMod[mon]}</h3></a>'
+        for i, stat_label in enumerate(statn):
+            stat_key = stat_label.lower()
+            val = complete_data['bst'][stat_key]
+            is_first = 'id="first-bst"' if i == 0 else ''
+            buf += f'<div class="dex-bst" {is_first}><h6>{stat_label}</h6><br>{val}</div>'
+            
+        buf += f'<h3 id="dex-tier">{complete_data["tier"]}</h3></a>'
+        
     buf += '</div>'
     return buf
 

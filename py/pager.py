@@ -46,7 +46,7 @@ def build_index():
     html = f.read()
     f.close()
     # homepage dex
-    buf = '<div class="dex-head"><h2 id="title">Pokémon</h2><h2 id="tier">Tier</h2></div>'
+    buf = '<h2 id="mon-name">Pokémon</h2>'
     buf += __build_dex_list(cache.searchData['dexlist'])
     html = html.replace(__comment_tag('PAGE_BODY'), buf)
     # insert headers
@@ -431,9 +431,9 @@ def __build_dex_list(mons, path=''):
     mons.sort()
     
     # Load files
-    with open('_assets/sorting_logic.js', 'r') as f:
+    with open('pages/js/sorter.js', 'r') as f:
         logic_js = f"<script>{f.read()}</script>"
-    with open('_assets/sorting_controls.html', 'r') as f:
+    with open('pages/sorting_controls.html', 'r') as f:
         controls_html = f.read()
 
     buf = logic_js + controls_html

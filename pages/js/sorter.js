@@ -6,19 +6,12 @@ function toggleDir(btn) {
     btn.dataset.dir = isAsc ? "desc" : "asc";
     
     // Update label based on context
-    const field = btn.id === "primary-dir" ? 
-                  document.getElementById('primary-sort').value : 
+    const field = btn.id === "primary-dir" ?
+                  document.getElementById('primary-sort').value :
                   document.getElementById('secondary-sort').value;
-    
-    const isNumeric = !['name', 'tier'].includes(field);
-    
-    if (isNumeric) {
-        btn.innerText = btn.dataset.dir === "asc" ? "Low ↑" : "High ↓";
-    } else {
-        btn.innerText = btn.dataset.dir === "asc" ? "A-Z" : "Z-A";
-    }
-}
 
+    btn.innerText = btn.dataset.dir === "asc" ? "ASC" : "DSC";
+}
 /**
  * Main function triggered by the "Apply" button
  */
@@ -49,8 +42,15 @@ function applyDexChanges() {
         let vB = getVal(b, pField);
         
         if (vA !== vB) {
-            if (vA < vB) return pDir === "asc" ? -1 : 1;
-            if (vA > vB) return pDir === "asc" ? 1 : -1;
+            if (typeof vA === 'string') {
+                // Inverted for strings: asc=Z-A, desc=A-Z
+                return pDir === "asc"
+                    ? b.dataset.name.localeCompare(a.dataset.name)
+                    : a.dataset.name.localeCompare(b.dataset.name);
+            } else {
+                if (vA < vB) return pDir === "asc" ? -1 : 1;
+                if (vA > vB) return pDir === "asc" ? 1 : -1;
+            }
         }
 
         // 2. Secondary Sort (if not "none")
@@ -58,13 +58,22 @@ function applyDexChanges() {
             vA = getVal(a, sField);
             vB = getVal(b, sField);
             if (vA !== vB) {
-                if (vA < vB) return sDir === "asc" ? -1 : 1;
-                if (vA > vB) return sDir === "asc" ? 1 : -1;
+                if (typeof vA === 'string') {
+                    // Inverted for strings: asc=Z-A, desc=A-Z
+                    return sDir === "asc"
+                        ? b.dataset.name.localeCompare(a.dataset.name)
+                        : a.dataset.name.localeCompare(b.dataset.name);
+                } else {
+                    if (vA < vB) return sDir === "asc" ? -1 : 1;
+                    if (vA > vB) return sDir === "asc" ? 1 : -1;
+                }
             }
         }
 
-        // 3. Final Fallback (Always Name A-Z)
-        return a.dataset.name.localeCompare(b.dataset.name);
+        // 3. Final Fallback (Name Z-A for asc, A-Z for desc)
+        return pDir === "asc"
+            ? b.dataset.name.localeCompare(a.dataset.name)
+            : a.dataset.name.localeCompare(b.dataset.name);
     });
 
     // Apply visibility and order

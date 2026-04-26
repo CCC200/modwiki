@@ -156,6 +156,8 @@ def build_moves(mod='base', moveOverride=False):
             name = line.split(':')[0].strip().replace('"', '')
             if name == 'hijumpkick': # polished override
                 name = 'highjumpkick'
+            elif name.find('hiddenpower') > -1 and name != 'hiddenpower': # skip HP variants
+                non_standard = True
         elif in_move and not dname and line.find('name:') > -1: # explicit name
             dname = line[line.find('"')+1:]
             dname = dname[:dname.find('"')]

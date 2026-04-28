@@ -208,8 +208,8 @@ def __build_dex_page(mon):
     else:
         buf = ''
     html = html.replace(__comment_tag('MON_EVOLUTION'), buf)
-    # overview (TODO: THIS IS PLACEHOLDER)
-    html = html.replace(__comment_tag('MON_OVERVIEW'), 'No analysis is available for this species.')
+    # overview
+    html = html.replace(__comment_tag('MON_OVERVIEW'), __build_dex_overview(mon))
     # abilities
     html = html.replace(__comment_tag('MON_ABILITY'), __build_ability_list(data['abilities'], '../../'))
     # moves
@@ -447,6 +447,69 @@ def __build_dex_list(mons, path=''):
         buf += f'<h3 id="dex-tier">{cache.tiersMod[mon]}</h3></a>'
     buf += '</div>'
     return buf
+
+def __build_dex_overview(mon):
+    if os.path.exists(f'dex/{mon}.md'):
+        f = open(f'dex/{mon}.md')
+        md = f.readlines()
+        f.close()
+        sections = []
+        section = None
+        set = None
+        in_set = False
+        # parse sections
+        for line in md:
+            if line.startswith('# '): # start of tier
+                if section: # flush existing
+                    sections.append(section)
+                section = {
+                    'tier': line[2:].strip(),
+                    'body': ''
+                }
+            elif not in_set and line.startswith('-- '): # start of set data
+                in_set = True
+                set = {
+                    'title': line[3:].strip(),
+                    'body': ''
+                }
+            elif in_set and line.startswith('--'): # end of set data
+                in_set = False
+                section['body'] += f'<h5>{set['title']}</h5><div class="mon-set">{set['body']}</div>'
+            elif in_set and line.startswith('Tera Type:') and not config.display_tera:
+                continue
+            elif in_set:
+                set['body'] += f'{line}<br>'
+            elif not line.strip():
+                section['body'] += '<br><br>'
+            else:
+                if '**' in line:
+                    for i in range(line.count('**')):
+                        if i % 2 == 0:
+                            line = line.replace('**', '<b>', 1)
+                        else:
+                            line = line.replace('**', '</b>', 1)
+                if '*' in line:
+                    for i in range(line.count('*')):
+                        if i % 2 == 0:
+                            line = line.replace('*', '<i>', 1)
+                        else:
+                            line = line.replace('*', '</i>', 1)
+                section['body'] += line
+        if section:
+            sections.append(section)
+        # build overview
+        secLen = len(sections)
+        buf = 'Tiers: '
+        for i in range(secLen): # section links
+            buf += f'<a href="#{sections[i]['tier'].lower()}">{sections[i]['tier']}</a>'
+            if i < secLen - 1 :
+                buf += ' / '
+        buf += '<br><br>'
+        for i in range(secLen): # section text
+            buf += f'<div class="overview-section" id="{sections[i]['tier'].lower()}"><h3>{sections[i]['tier']}</h3>{sections[i]['body']}</div>'
+        return buf
+    else:
+        return 'No analysis is available for this species.'
 
 def __comment_tag(n):
     return f'<!-- {n} -->'

@@ -186,6 +186,13 @@ def build_moves(mod='base', moveOverride=False):
             in_move = False
             if non_standard:
                 non_standard = False
+                dname = False
+                cat = False
+                type = False
+                acc = False
+                bp = False
+                pp = False
+                desc = False
                 continue
             movelist['moves'].append(name)
             # enter or override fields

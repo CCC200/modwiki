@@ -4,14 +4,14 @@
         <!-- Filter Section -->
         <div class="control-section search-section">
             <label>Filter</label>
-            <input type="text" id="dex-search" placeholder="Filter by name...">
+            <input type="text" id="dex-search" placeholder="Filter by name..." onkeyup="applyDexChanges()">
         </div>
 
         <!-- Primary Sort -->
         <div class="control-section">
-            <label>Primary Sort</label>
+            <label>Sort</label>
             <div class="input-group">
-                <select id="primary-sort">
+                <select id="primary-sort" onchange="applyDexChanges()">
                     <option value="name" selected>Name</option>
                     <option value="hp">HP</option>
                     <option value="atk">Attack</option>
@@ -28,9 +28,9 @@
 
         <!-- Secondary Sort (Tie-breaker) -->
         <div class="control-section">
-            <label>Tie-breaker</label>
+            <label>Tiebreak</label>
             <div class="input-group">
-                <select id="secondary-sort">
+                <select id="secondary-sort" onchange="applyDexChanges()">
                     <option value="none" selected>None</option>
                     <option value="name">Name</option>
                     <option value="hp">HP</option>
@@ -44,11 +44,6 @@
                 </select>
                 <button type="button" class="dir-toggle" id="secondary-dir" data-dir="dsc" onclick="toggleDir(this)">DSC</button>
             </div>
-        </div>
-
-        <!-- Action Button -->
-        <div class="control-section action-section">
-            <button id="apply-filters" onclick="applyDexChanges()">Go</button>
         </div>
     </div>
 </div>

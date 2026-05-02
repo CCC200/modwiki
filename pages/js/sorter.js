@@ -11,6 +11,8 @@ function toggleDir(btn) {
                   document.getElementById('secondary-sort').value;
 
     btn.innerText = btn.dataset.dir === "asc" ? "ASC" : "DSC";
+
+    applyDexChanges();
 }
 /**
  * Main function triggered by the "Apply" button

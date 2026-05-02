@@ -1,0 +1,49 @@
+<div class="dex-controls-container">
+    <div class="controls-grid">
+        
+        <!-- Filter Section -->
+        <div class="control-section search-section">
+            <label>Filter</label>
+            <input type="text" id="dex-search" placeholder="Filter by name..." onkeyup="applyDexChanges()">
+        </div>
+
+        <!-- Primary Sort -->
+        <div class="control-section">
+            <label>Sort</label>
+            <div class="input-group">
+                <select id="primary-sort" onchange="applyDexChanges()">
+                    <option value="name" selected>Name</option>
+                    <option value="hp">HP</option>
+                    <option value="atk">Attack</option>
+                    <option value="def">Defense</option>
+                    <option value="spa">Sp. Atk</option>
+                    <option value="spd">Sp. Def</option>
+                    <option value="spe">Speed</option>
+                    <option value="bst">BST</option>
+                    <option value="tier">Tier</option>
+                </select>
+                <button type="button" class="dir-toggle" id="primary-dir" data-dir="dsc" onclick="toggleDir(this)">DSC</button>
+            </div>
+        </div>
+
+        <!-- Secondary Sort (Tie-breaker) -->
+        <div class="control-section">
+            <label>Tiebreak</label>
+            <div class="input-group">
+                <select id="secondary-sort" onchange="applyDexChanges()">
+                    <option value="none" selected>None</option>
+                    <option value="name">Name</option>
+                    <option value="hp">HP</option>
+                    <option value="atk">Attack</option>
+                    <option value="def">Defense</option>
+                    <option value="spa">Sp. Atk</option>
+                    <option value="spd">Sp. Def</option>
+                    <option value="spe">Speed</option>
+                    <option value="bst">BST</option>
+                    <option value="tier">Tier</option>
+                </select>
+                <button type="button" class="dir-toggle" id="secondary-dir" data-dir="dsc" onclick="toggleDir(this)">DSC</button>
+            </div>
+        </div>
+    </div>
+</div>
